@@ -1,0 +1,67 @@
+Программный проект на C#
+using System;
+using System.Collections.Generic;
+
+public class Multiton
+{
+    private static Dictionary<string, Multiton> _instances = new Dictionary<string, Multiton>();
+    private string _key;
+
+    private Multiton(string key)
+    {
+        _key = key;
+    }
+
+    public static Multiton GetInstance(string key)
+    {
+        if (!_instances.ContainsKey(key))
+        {
+            _instances[key] = new Multiton(key);
+        }
+        return _instances[key];
+    }
+
+    public void Display()
+    {
+        Console.WriteLine("Instance with key: " + _key);
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        Multiton instance1 = Multiton.GetInstance("key1");
+        Multiton instance2 = Multiton.GetInstance("key2");
+        Multiton instance3 = Multiton.GetInstance("key1");
+
+        instance1.Display();  // Output: Instance with key: key1
+        instance2.Display();  // Output: Instance with key: key2
+        instance3.Display();  // Output: Instance with key: key1
+    }
+}
+ 
+Реализация на дополнительном языке (Python)
+class Multiton:
+    _instances = {}
+
+    def __new__(cls, key):
+        if key not in cls._instances:
+            cls._instances[key] = super(Multiton, cls).__new__(cls)
+        return cls._instances[key]
+
+    def __init__(self, key):
+        self.key = key
+
+    def display(self):
+        print(f"Instance with key: {self.key}")
+
+# Использование
+instance1 = Multiton('key1')
+instance2 = Multiton('key2')
+instance3 = Multiton('key1')
+
+instance1.display()  # Output: Instance with key: key1
+instance2.display()  # Output: Instance with key: key2
+instance3.display()  # Output: Instance with key: key1
+ 
