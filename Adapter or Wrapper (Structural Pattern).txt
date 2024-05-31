@@ -1,0 +1,58 @@
+Программный проект на C#
+using System;
+
+public class Adaptee
+{
+    public string SpecificRequest()
+    {
+        return "Adaptee's specific request";
+    }
+}
+
+public interface ITarget
+{
+    string Request();
+}
+
+public class Adapter : ITarget
+{
+    private Adaptee _adaptee;
+
+    public Adapter(Adaptee adaptee)
+    {
+        _adaptee = adaptee;
+    }
+
+    public string Request()
+    {
+        return _adaptee.SpecificRequest();
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        Adaptee adaptee = new Adaptee();
+        ITarget adapter = new Adapter(adaptee);
+        Console.WriteLine(adapter.Request());
+    }
+}
+ 
+Реализация на дополнительном языке (Python)
+python
+class Adaptee:
+    def specific_request(self):
+        return "Adaptee's specific request"
+
+class Adapter:
+    def __init__(self, adaptee):
+        self.adaptee = adaptee
+
+    def request(self):
+        return self.adaptee.specific_request()
+
+# Использование
+adaptee = Adaptee()
+adapter = Adapter(adaptee)
+print(adapter.request())  # Output: Adaptee's specific request
