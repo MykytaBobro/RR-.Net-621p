@@ -1,0 +1,55 @@
+Программный проект на C#
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+
+public class AsyncInvoker
+{
+    public async Task Invoke(Func<string> method, Action<string> callback)
+    {
+        var result = await Task.Run(method);
+        callback(result);
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        AsyncInvoker invoker = new AsyncInvoker();
+
+        invoker.Invoke(SomeMethod, Callback).Wait();
+    }
+
+    static string SomeMethod()
+    {
+        return "Method executed";
+    }
+
+    static void Callback(string result)
+    {
+        Console.WriteLine(result);
+    }
+}
+ 
+Реализация на дополнительном языке (Python)
+import threading
+
+class AsyncInvoker:
+    def invoke(self, method, callback):
+        def run():
+            result = method()
+            callback(result)
+        
+        thread = threading.Thread(target=run)
+        thread.start()
+
+def some_method():
+    return "Method executed"
+
+def callback(result):
+    print(result)
+
+# Использование
+invoker = AsyncInvoker()
+invoker.invoke(some_method, callback)
