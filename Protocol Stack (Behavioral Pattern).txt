@@ -1,0 +1,83 @@
+Программный проект на C#
+using System;
+using System.Collections.Generic;
+
+public abstract class ProtocolLayer
+{
+    public abstract string Handle(string data);
+}
+public class ProtocolStack
+{
+    private List<ProtocolLayer> _layers = new List<ProtocolLayer>();
+
+    public void AddLayer(ProtocolLayer layer)
+    {
+        _layers.Add(layer);
+    }
+
+    public string Handle(string data)
+    {
+        foreach (var layer in _layers)
+        {
+            data = layer.Handle(data);
+        }
+        return data;
+    }
+}
+
+public class Layer1 : ProtocolLayer
+{
+    public override string Handle(string data)
+    {
+        return $"Layer1 processed {data}";
+    }
+}
+public class Layer2 : ProtocolLayer
+{
+    public override string Handle(string data)
+    {
+        return $"Layer2 processed {data}";
+    }
+}
+class Program
+{
+    static void Main()
+    {
+        ProtocolStack stack = new ProtocolStack();
+        stack.AddLayer(new Layer1());
+        stack.AddLayer(new Layer2());
+
+        string result = stack.Handle("data");
+        Console.WriteLine(result);  // Output: Layer2 processed Layer1 processed data
+    }
+}
+Реализация на дополнительном языке (Python)
+class ProtocolLayer:
+    def handle(self, data):
+        pass
+
+class ProtocolStack:
+    def __init__(self):
+        self.layers = []
+
+    def add_layer(self, layer):
+        self.layers.append(layer)
+
+    def handle(self, data):
+        for layer in self.layers:
+            data = layer.handle(data)
+        return data
+
+class Layer1(ProtocolLayer):
+    def handle(self, data):
+        return f"Layer1 processed {data}"
+
+class Layer2(ProtocolLayer):
+    def handle(self, data):
+        return f"Layer2 processed {data}"
+
+# Использование
+stack = ProtocolStack()
+stack.add_layer(Layer1())
+stack.add_layer(Layer2())
+print(stack.handle("data"))  # Output: Layer2 processed Layer1 processed data
